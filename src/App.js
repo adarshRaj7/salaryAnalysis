@@ -1,7 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { parseCsv } from "./services/parseCsv/parseCsv";
+import { useState } from "react";
+import { yearwiseData } from "./services/salaries/yearwiseData";
+
+//csv
 
 function App() {
+  yearwiseData();
+  // let data = [];
+  // parseCsv()
+  // .then((results) => {
+  //   data = results;
+  //   console.log(data);
+  // })
+  // .catch((error) => {
+  //   console.log(error);
+  // });
+  // console.log("data", data);
   return (
     <div className="App">
       <header className="App-header">
