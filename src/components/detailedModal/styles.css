@@ -1,0 +1,32 @@
+/* For Chrome, Safari and newer versions of Edge */
+.scrollbar::-webkit-scrollbar {
+    width: 2px !important;
+  }
+  
+  .scrollbar::-webkit-scrollbar-track {
+    background: transparent !important;
+  }
+  
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #888 !important;
+    border-radius: 2px !important;
+  }
+  
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555 !important;
+  }
+  
+  .scrollbar::-webkit-scrollbar-button {
+    display: none !important;
+  }
+  
+  /* For Firefox */
+  .scrollbar {
+    scrollbar-width: thin !important;
+    scrollbar-color: #888 transparent !important;
+  }
+  
+  /* For Internet Explorer and Edge */
+  .scrollbar {
+    -ms-overflow-style: none !important;
+  }
