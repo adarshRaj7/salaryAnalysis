@@ -2,18 +2,40 @@ import { Layout, Space, Table, Tag, theme } from "antd";
 import "./App.css";
 import { yearwiseData } from "./services/salaries/yearwiseData";
 import { Content } from "antd/es/layout/layout";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 //csv
 
- function App() {
-  const  yearwise  = yearwiseData();
-  console.log("In app",yearwise)
+function App() {
+  const [yearly, setYearly] = useState({});
+
+  useEffect(() => {
+    yearwiseData()
+      .then((yearwise) => {
+        console.log("In app", yearwise);
+        setYearly(yearwise);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const getAverageSalary = (data) => {
+    let total = 0;
+    if(!data) return 0;
+    data.forEach((element) => {
+      total += element.salary_in_usd;
+    });
+    return (total / data.length).toFixed(2);
+  };
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
   //table test
 
+  console.log(yearly);
   const columns = [
     {
       title: "Year",
@@ -58,67 +80,56 @@ import { useEffect } from "react";
       title: "Average Salary (USD)",
       dataIndex: "salary",
       sorter: (a, b) => a.salary - b.salary,
-
-      // filters: [
-      //   {
-      //     text: "London",
-      //     value: "London",
-      //   },
-      //   {
-      //     text: "New York",
-      //     value: "New York",
-      //   },
-      // ],
-      // onFilter: (value, record) => record.address.indexOf(value) === 0,
     },
   ];
   const data = [
     {
       key: "1",
       year: "2022",
-      jobs: 31,
-      salary: 1000000,
+      jobs: yearly[2022]?.length || 0,
+      salary: getAverageSalary(yearly[2022]),
     },
     {
       key: "2",
       year: "2021",
-      jobs: 42,
-      salary: 2000000,
+      jobs: yearly[2021]?.length || 0,
+      salary:getAverageSalary(yearly[2021]),
     },
     {
       key: "3",
       year: "2024",
-      jobs: 32,
-      salary: 3000000,
+      jobs: yearly[2024]?.length || 0,
+      salary: getAverageSalary(yearly[2024]),
     },
     {
       key: "4",
       year: "2023",
-      jobs: 33,
-      salary: 4000000,
+      jobs: yearly[2023]?.length || 0,
+      salary: getAverageSalary(yearly[2023]),
     },
     {
       key: "5",
       year: "2020",
-      jobs: 34,
-      salary: 5000000,
+      jobs: yearly[2020]?.length || 0,
+      salary: getAverageSalary(yearly[2020]),
     },
   ];
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
   };
 
-
   return (
-    <Layout style={{height:"100vh"}}>
+    <Layout style={{ height: "100vh" }}>
       <Content style={{ padding: "12px 48px" }}>
-        <div style={{
+        <div
+          style={{
             background: colorBgContainer,
             minHeight: 280,
             padding: 24,
             borderRadius: borderRadiusLG,
-          }}>
-            Main Table
+          }}
+        >
+          Main Table
           <Table
             columns={columns}
             dataSource={data}
